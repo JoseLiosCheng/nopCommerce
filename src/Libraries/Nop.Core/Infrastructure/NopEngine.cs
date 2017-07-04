@@ -163,7 +163,15 @@ namespace Nop.Core.Infrastructure
                 return assembly;
 
             //get assembly fron TypeFinder
-            var tf = Resolve<ITypeFinder>();
+            ITypeFinder tf;
+            try
+            {
+                tf = Resolve<ITypeFinder>();
+            }
+            catch
+            {
+                throw new NopException("Error here");
+            }
             assembly = tf.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
             return assembly;
         }
